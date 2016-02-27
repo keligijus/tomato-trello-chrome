@@ -1,0 +1,44 @@
+<div layout="vertical" layout-fill>
+
+  <md-content layout-fill>
+    <header>
+      <acme-navbar creation-date="main.creationDate"></acme-navbar>
+    </header>
+
+    <section class="jumbotron">
+      <h1>
+        Hi, NAME, choose your Trello board<br>
+        <timer interval="1000">{{minutes}}:{{seconds}}</timer>
+      </h1>
+      <!-- <md-button ng-click="vm.test()">Test (Trello)</md-button>
+      <md-button ng-click="vm.getMe()">Get Me (Trello)</md-button>
+      <md-button ng-click="vm.getMyBoard()">My Board (Trello)</md-button>
+      <md-button ng-click="vm.what()">What test?</md-button> -->
+    </section>
+
+
+    <!-- <pre>{{ vm.boards | json}}</pre> -->
+<script>/*
+    <div class="techs" layout-align="center">
+      <md-card ng-repeat="board in vm.boards">
+        <md-card-content>
+          <!-- <img class="pull-right" ng-src="assets/images/{{ awesomeThing.logo }}" alt="{{ awesomeThing.title }}"> -->
+          <h3 class="md-title">{{ board.name }}</h3>
+          <!-- <p>{{ board.description }}</p> -->
+        </md-card-content>
+      </md-card>
+    </div>
+*/</script>
+
+  <md-grid-list
+        md-cols="1" md-cols-sm="2" md-cols-md="3" md-cols-gt-md="4"
+        md-row-height-gt-md="1:1" md-row-height="4:3"
+        md-gutter="8px" md-gutter-gt-sm="4px" >
+    <md-grid-tile ng-repeat="board in vm.boards"
+                  md-colspan-sm="1">
+      <md-grid-tile-footer><h3>{{ board.name }}</h3></md-grid-tile-footer>
+    </md-grid-tile>
+  </md-grid-list>
+  </md-content>
+
+</div>
