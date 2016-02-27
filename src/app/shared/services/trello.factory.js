@@ -5,15 +5,16 @@
   /** @ngInject */
   function factory($q, $log, SETTINGS, toastr) {
     var f = this;
-        f.boards = [];
-
-    f.authenticationSuccess = function() { $log.info('Successful authentication'); };
-    f.authenticationFailure = function() { $log.error('Failed authentication'); };
+        f.current = {
+          board: undefined,
+          card: undefined,
+          checklist: undefined
+        };
 
     f.init = function () {
       f.authorize();
-      // return f.getBoards({ onlyActive: true });
     }
+
 
     f.authorize = function() {
       Trello.authorize({
@@ -28,24 +29,27 @@
       });
     }
 
+    f.authenticationSuccess = function() {
+      $log.info('Successful authentication');
+      toastr.success('Oh yeah', 'Successful authentication');
+    };
+    f.authenticationFailure = function() {
+      $log.error('Failed authentication');
+      toastr.success('Oh noo!', 'Failed authentication');
+    };
+
     f.getBoards = function(options) {
       var deferred = $q.defer();
 
-      Trello.get('member/me/boards', function(response){
-
+      Trello.get('member/me/boards/', function(response){
         if (options.onlyActive) { response = f.onlyActiveBoards(response); }
-
         deferred.resolve(response);
-
       }, function(err){
-
         deferred.reject(err);
-
       });
 
       return deferred.promise;
     }
-
 
     f.onlyActiveBoards = function(boards) {
       var activeBoards = [];
@@ -56,6 +60,37 @@
 
       return activeBoards;
     }
+
+    f.getBoardCards = function(boardId) {
+      f.authorize();
+
+      var deferred = $q.defer();
+      var getParam = 'boards/'+boardId+'/cards';
+      $log.debug(getParam);
+
+      Trello.get(getParam, function(response){
+        response = f.onlyCardsWithChecklists(response);
+        deferred.resolve(response);
+      }, function(err){
+        deferred.reject(err);
+      });
+
+      return deferred.promise;
+    }
+
+    f.onlyCardsWithChecklists = function(cards) {
+      var cardsWithChecklists = [];
+
+      cards.forEach(function(card, index){
+        if (card.idChecklists.length > 0) {
+          cardsWithChecklists.push(card);
+        }
+      });
+
+      return cardsWithChecklists;
+    }
+
+
 
 
 
