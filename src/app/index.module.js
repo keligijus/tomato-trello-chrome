@@ -14,7 +14,8 @@
         'timer',
         'trello',
         /* Pages */
-        'board'
+        'board',
+        'clock'
       ]
     );
 

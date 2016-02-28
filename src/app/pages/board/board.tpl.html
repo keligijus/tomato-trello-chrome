@@ -1,4 +1,17 @@
 <md-card ng-repeat="card in vm.cards">
 <!-- <pre>{{card | json}}</pre> -->
-  <md-card-title>{{card.name}}</md-card-title>
+  <md-card-title>
+    <md-card-title-text class="md-headline">{{ card.name }}</md-card-title-text>
+    <!-- <pre>{{ card | json}}</pre> -->
+  </md-card-title>
+  <md-card-content>
+    <div ng-repeat="checklist in card.returnedChecklists">
+      <h3>{{ checklist.name }}</h3>
+      <ul>
+        <li ng-repeat="item in checklist.checkItems">
+          <a ui-sref="clock({checkItemsId: item.id})" ng-class="{completed: item.state === 'complete'}">{{ item.name }}</a>
+        </li>
+      </ul>
+    </div>
+  </md-card-content>
 </md-card>

@@ -11,6 +11,8 @@
           checklist: undefined
         };
 
+    // var Trello = Trello || {};
+
     f.init = function () {
       f.authorize();
     }
@@ -80,7 +82,7 @@
     f.onlyCardsWithChecklists = function(cards) {
       var cardsWithChecklists = [];
 
-      cards.forEach(function(card, index){
+      cards.forEach(function(card){
         if (card.idChecklists.length) {
           cardsWithChecklists.push(card);
         }
