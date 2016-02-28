@@ -9,10 +9,15 @@
   function routerConfig($stateProvider, $urlRouterProvider) {
     $stateProvider
       .state('board', {
-        url: '/board',
-        templateUrl: 'app/pages/board.tpl.html',
+        url: '/board-:boardId',
+        templateUrl: 'app/pages/board/board.tpl.html',
         controller: 'BoardController',
-        controllerAs: 'vm'
+        controllerAs: 'vm',
+        resolve: {
+          resolveGetBoardCards: function(trelloFactory, $stateParams) {
+            return trelloFactory.getBoardCards($stateParams.boardId)
+          }
+        }
       });
 
     $urlRouterProvider.otherwise('/');

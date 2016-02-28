@@ -66,7 +66,6 @@
 
       var deferred = $q.defer();
       var getParam = 'boards/'+boardId+'/cards';
-      $log.debug(getParam);
 
       Trello.get(getParam, function(response){
         response = f.onlyCardsWithChecklists(response);
@@ -82,12 +81,30 @@
       var cardsWithChecklists = [];
 
       cards.forEach(function(card, index){
-        if (card.idChecklists.length > 0) {
+        if (card.idChecklists.length) {
           cardsWithChecklists.push(card);
         }
       });
 
       return cardsWithChecklists;
+    }
+
+    f.getChecklist = function(checklistId) {
+      f.authorize();
+
+      var deferred = $q.defer();
+      var getParam = '/checklists/' + checklistId;
+
+      Trello.get(getParam, function(response){
+        // response = f.onlyCardsWithChecklists(response);
+        $log.debug(response);
+        deferred.resolve(response);
+      }, function(err){
+        deferred.reject(err);
+      });
+
+      return deferred.promise;
+
     }
 
 

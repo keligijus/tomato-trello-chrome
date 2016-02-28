@@ -1,1 +1,4 @@
-<h1>Hi, it's board something</h1>
+<md-card ng-repeat="card in vm.cards">
+<!-- <pre>{{card | json}}</pre> -->
+  <md-card-title>{{card.name}}</md-card-title>
+</md-card>
