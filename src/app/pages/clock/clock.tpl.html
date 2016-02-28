@@ -3,7 +3,10 @@
 <md-card>
   <md-card-title>
     <md-headline>
-      <span class="md-title">{{ vm.item.name }}</span>
+      <md-checkbox ng-model="vm.completed" aria-label="Is completed">
+        {{ vm.item.name }}
+      </md-checkbox>
+      <span class="md-title"></span>
     </md-headline>
   </md-card-title>
 </md-card>
