@@ -9,9 +9,12 @@
       <h3>{{ checklist.name }}</h3>
       <ul>
         <li ng-repeat="item in checklist.checkItems">
-          <a ui-sref="clock({checkItemsId: item.id})" ng-class="{completed: item.state === 'complete'}">{{ item.name }}</a>
+          <a ui-sref="clock({checklistId: $parent.checklist.id , checkItemsId: item.id})"
+            ng-class="{completed: item.state === 'complete'}">{{ item.name }}</a>
         </li>
       </ul>
     </div>
   </md-card-content>
 </md-card>
+
+<!-- ui-sref="clock({checkItemsId: item.id})" -->

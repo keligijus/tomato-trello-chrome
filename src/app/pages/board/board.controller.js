@@ -6,7 +6,7 @@
     .controller('BoardController', controller);
 
   /** @ngInject */
-  function controller($log, $scope, resolveGetBoardCards, trelloFactory) {
+  function controller($log, $state, resolveGetBoardCards, trelloFactory) {
     var vm = this;
         vm.cards = resolveGetBoardCards;
         vm.trello = trelloFactory;
@@ -29,6 +29,13 @@
         return card.returnedChecklists = checklists;
       });
     }
+
+    // vm.goToClock = function(itemData, cardData) {
+    //   $log.debug('$parent: ', cardData)
+    //   vm.trello.current.checklist = itemData;
+    //   vm.trello.current.card = cardData;
+    //   $state.go('clock');
+    // }
 
     vm.init();
 

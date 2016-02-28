@@ -6,10 +6,15 @@
     .controller('ClockController', controller);
 
   /** @ngInject */
-  function controller($log) {
-    // var vm = this;
+  function controller($log, trelloFactory, resolveGetChecklistItem) {
+    var vm = this;
     //     vm.cards = resolveGetBoardCards;
-    //     vm.trello = trelloFactory;
+        vm.trello = trelloFactory;
+        // vm.item = vm.trello.current.checklist;
+
+        vm.item = resolveGetChecklistItem;
+
+        $log.debug(vm.item)
 
     // $log.debug(resolveGetBoardCards);
 
