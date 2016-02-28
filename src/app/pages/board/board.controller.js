@@ -19,7 +19,7 @@
 
 
     vm.getChecklists = function(cards) {
-      cards.forEach(function(card, index){
+      cards.forEach(function(card){
         var checklists = [];
         card.idChecklists.forEach(function(checklistId){
             vm.trello.getChecklist(checklistId).then(function(result){

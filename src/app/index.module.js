@@ -12,7 +12,7 @@
         'ngMaterial',
         'toastr',
         'timer',
-        'trello',
+        // 'trello',
         /* Pages */
         'board',
         'clock'

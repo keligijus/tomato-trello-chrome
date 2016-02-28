@@ -6,7 +6,7 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, $log, TrelloApi, trelloFactory) {
+  function MainController($timeout, $log, trelloFactory) {
     var vm = this;
 
     vm.trello = trelloFactory;
