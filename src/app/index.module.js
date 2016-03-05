@@ -12,6 +12,7 @@
         'ngMaterial',
         'toastr',
         'timer',
+        'angular.filter',
         // 'trello',
         /* Pages */
         'board',
