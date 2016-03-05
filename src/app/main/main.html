@@ -1,3 +1,43 @@
+<div layout="row" layout-margin>
+  <div flex="25">
+    <!--  -->
+  </div>
+
+  <div flex="50" layout="column" layout-padding layout-margin layout-fill
+    md-whiteframe="3"
+    style="height: 80vh; margin: 10vh auto; background:white;">
+    <div flex>
+      <h1 class="md-headline">1: Choose the board</h1>
+      <h2 class="md-headline">2: The list</h2>
+      <h2 class="md-headline">3: The card</h2>
+    </div>
+    <div flex>
+      <md-input-container>
+        <label>Search Boards</label>
+        <input type="text" ng-model="vm.boardsSearch">
+      </md-input-container>
+      <div class="list" ng-repeat="board in vm.boards" layout="row">
+      <md-checkbox ng-model="board.TTisSelected" aria-label="{{ board.name }}">
+        {{ board.name }}
+      </md-checkbox>
+      <span flex></span>
+      <md-button>Go directly to board (replace with icon)</md-button>
+      </div>
+    </div>
+    <div layout="row">
+      <div flex></div>
+      <md-button ng-click="vm.goToSelectedBoards()">Go to selected boards</md-button>
+    </div>
+  </div>
+
+  <div flex="25">
+    <!--  -->
+  </div>
+</div>
+
+<script>
+//Legacy :hankey:
+/*
 <div layout="vertical" layout-fill>
 
   <md-content layout-fill>
@@ -34,3 +74,4 @@
   </md-content>
 
 </div>
+*/</script>
