@@ -6,11 +6,15 @@
   <div flex="50" layout="column" layout-padding layout-margin layout-fill
     md-whiteframe="3"
     style="height: 80vh; margin: 10vh auto; background:white;">
-    <div flex>
-      <h1 class="md-headline">1: Choose the board</h1>
-      <h2 class="md-headline"><strong>2: The list</strong></h2>
+    <nav flex>
+      <h1 class="md-headline"
+        ui-sref="home"
+        ui-sref-active="active">1: Choose the board</h1>
+      <h2 class="md-headline"
+        ui-sref="lists"
+        ui-sref-active="active">2: The list</h2>
       <h2 class="md-headline">3: The card</h2>
-    </div>
+    </nav>
     <div flex>
       <!-- TODO: on Enter should go to remaining boards -->
       <md-input-container>
@@ -19,10 +23,12 @@
       </md-input-container>
       <div class="list" ng-repeat="listArr in vm.listsArr" layout="column">
         <div>{{ listArr.boardName }}</div>
-        <div ng-repeat="list in listArr.lists | fuzzy: vm.listsSearch">
+        <div layout="row" ng-repeat="list in listArr.lists | fuzzy: vm.listsSearch">
           <md-checkbox ng-model="list.TTisSelected" aria-label="{{ list.name }}">
             {{ list.name }}
           </md-checkbox>
+          <span flex></span>
+          <md-button ng-click="vm.goToLists({boardId: board.id})">Go directly to list cards</md-button>
         </div>
 <!--         <div ng-reapeat="list in listsArr.lists">
           <span flex></span>
@@ -42,4 +48,4 @@
   </div>
 </div>
 
-<pre>{{ vm.listsArr | json }}</pre>
+<!-- <pre>{{ vm.listsArr | json }}</pre> -->
