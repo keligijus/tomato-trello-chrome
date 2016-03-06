@@ -6,100 +6,53 @@
     .controller('ListsController', controller);
 
   /** @ngInject */
-  function controller($log, $state, trelloFactory, resolveGetLists) {
+  function controller($q, $log, $state, trelloFactory, resolveGetLists, resolveGetBoards) {
     var vm = this;
         vm.listsArr = [];
         vm.trello = trelloFactory;
-        vm.boards = vm.trello.cached.boards;
 
-    // $log.debug('resolveGetLists1', resolveGetLists);
-    if ( ! vm.trello.cached.boards) {
-      vm.trello.getBoards({ onlyActive: true }).then(function(result){
-        vm.boards = result;
-        vm.trello.cached.boards = result;
-      });
-    }
+    // $log.debug('trello cahched boards', vm.trello.cached.boards);
+    // $log.debug('resolveGetBoards', resolveGetBoards);
+    // $log.debug('resolveGetLists', resolveGetLists);
 
-    $log.debug('trello cahched boards', vm.trello.cached.boards);
+    /*
+        1. Check cached.boards (get if falsey)
+        2. Resolve listsPromise [array]
+        3. Add board names to each listsArr
+        4. VIEW: repeat listArr in listsArr (listsArr.name)
+          4.1 Inside repeat list in listsArr (list.name)
+    */
 
     vm.init = function() {
 
-      vm.getAllListsPromise().then(function(results){
-        results.forEach(function(result){
-          var listObj = {};
-          var tempBoardName;
+      if (trelloFactory.cached.boards.length < 1) {
+        $log.debug(' getting cached boards from resolve @list.controller');
+        trelloFactory.cached.boards = resolveGetBoards;
+      }
 
-          $log.info('result: ', result);
+      vm.getAllListsPromise().then(function(results) {
+        results.forEach(function(result) {
+          var listObj = {},
+              tempBoardName;
 
           listObj.boardId = result[0].idBoard;
           listObj.lists = result;
 
-          vm.boards.forEach(function(board){
+          trelloFactory.cached.boards.forEach(function(board){
             if (board.id === result[0].idBoard) {
               listObj.boardName = board.name;
             }
           });
 
-          vm.listsArr.push(listObj);
-
-          /*
-            add array to an object = {
-              array: result,
-              boardId: result[0].boardId,
-              boardName: function that matches ids of cached boards
-            }
-          */
+          return vm.listsArr.push(listObj);
         });
       });
+
     }
 
     vm.getAllListsPromise = function() {
-      return Promise.all(resolveGetLists);
+      return $q.all(resolveGetLists);
     }
-
-    // vm.prepLists = function() {
-    //   var listsArr = [];
-    //   // var singlelistArr;
-
-    //   Promise.all(resolveGetLists).then(function(values) {
-    //     var lists = [],
-    //         tempBoardName,
-    //         tempBoardId;
-
-    //     $log.debug(values);
-
-
-
-    //     values.forEach(function(valueArr) {
-    //       //add board name to each arr item
-    //       $log.warn(valueArr);
-
-    //       tempBoardId = valueArr[0].idBoard;
-
-    //       vm.boards.forEach(function(board){
-    //         if (board.id === tempBoardId) { return tempBoardName = board.name; }
-    //       });
-
-    //       valueArr.forEach(function(value) {
-    //         value.TTboarName = tempBoardName;
-    //       });
-
-    //       listsArr.push(valueArr);
-    //     });
-
-    //     vm.lists = listsArr;
-
-    //     return listsArr;
-
-    //   });
-
-      // resolveGetLists.forEach(function(promise) {
-      //   singlelistArr = promise.$state.value;
-      //   listsArr.push(singlelistArr);
-      // });
-
-    // }
-
 
 
     vm.init();

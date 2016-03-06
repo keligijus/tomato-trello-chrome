@@ -29,7 +29,11 @@
             });
 
             return promisesArr;
-
+          },
+          resolveGetBoards: function(trelloFactory) {
+            if (trelloFactory.cached.boards.length < 1) {
+              return trelloFactory.getBoards({ onlyActive: true });
+            }
           }
         }
       });
