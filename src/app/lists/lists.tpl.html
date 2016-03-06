@@ -22,8 +22,9 @@
         <input type="text" ng-model="vm.listsSearch">
       </md-input-container>
       <div class="list" ng-repeat="listArr in vm.listsArr" layout="column">
-        <div>{{ listArr.boardName }}</div>
-        <div layout="row" ng-repeat="list in listArr.lists | fuzzy: vm.listsSearch">
+        <div ng-if="filtered.length > 0">{{ listArr.boardName }}</div>
+        <div layout="row"
+          ng-repeat="list in filtered = (listArr.lists | fuzzy: vm.listsSearch)">
           <md-checkbox ng-model="list.TTisSelected" aria-label="{{ list.name }}">
             {{ list.name }}
           </md-checkbox>
