@@ -16,7 +16,8 @@
         // 'trello',
         /* Pages */
         'board',
-        'clock'
+        'clock',
+        'lists'
       ]
     );
 

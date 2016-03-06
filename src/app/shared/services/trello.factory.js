@@ -9,7 +9,11 @@
           board: undefined,
           card: undefined,
           checklist: undefined
-        };
+        },
+        f.selected = {
+          boards: [],
+          lists: []
+        }
 
     // var Trello = Trello || {};
 

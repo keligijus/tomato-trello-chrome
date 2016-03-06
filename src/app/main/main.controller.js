@@ -6,11 +6,13 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController($timeout, $log, trelloFactory) {
+  function MainController($timeout, $log, $state, trelloFactory) {
     var vm = this;
 
     vm.trello = trelloFactory;
     vm.boardsSearch = undefined;
+    vm.allBoardsIds = [];
+    vm.selectedBoardsIds = [];
 
     // activate();
 
@@ -18,22 +20,42 @@
 
     vm.trello.getBoards({ onlyActive: true }).then(function(result){
       vm.boards = result;
+      vm.allBoardsIds = vm.getAllBoardsIds(vm.boards);
     });
 
-    vm.goToBoard = function(boardId) {
-      $log.info(boardId);
-      vm.trello.getBoardCards(boardId).then(function(result){
-        $log.info('result');
-        $log.debug(result);
+    vm.getAllBoardsIds = function(boards) {
+      var allBoardsIds = [];
+
+      boards.forEach( function(board) {
+        allBoardsIds.push(board.id);
       });
+
+      $log.log('allBoardsIds: ', allBoardsIds);
+      return allBoardsIds;
     }
 
-    vm.goToSelectedBoards = function() {
+    vm.getSelectedBoardIds = function() {
+      var selectedBoards = [];
+
       vm.boards.forEach(function(board) {
         if (board.TTisSelected) {
-          
+          selectedBoards.push(board.id);
         }
       });
+
+      return selectedBoards;
+    }
+
+    vm.goToLists = function(settings) {
+      var boardsIdsArr = [];
+
+      if (settings.boardId) { boardsIdsArr.push(settings.boardId); }
+      else if (settings.onlySelected) { boardsIdsArr = vm.getSelectedBoardIds(); }
+      else { boardsIdsArr = vm.getAllBoardsIds(); }
+
+      $log.debug('boardsIdsArr: ', boardsIdsArr);
+
+      $state.go('lists', { boardsIds: boardsIdsArr });
     }
 
   }
