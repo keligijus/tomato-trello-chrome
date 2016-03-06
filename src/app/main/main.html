@@ -32,7 +32,8 @@
     <div layout="row">
       <div flex></div>
       <md-button ng-click="vm.goToLists()">Go to all boards</md-button>
-      <md-button ng-click="vm.goToLists({onlySelected: true})">Go to selected boards</md-button>
+      <md-button ng-click="vm.goToLists({onlySelected: true})"
+        ng-disabled="vm.noSelectedBoards()">Go to selected boards</md-button>
     </div>
   </div>
 

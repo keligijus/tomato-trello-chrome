@@ -38,21 +38,29 @@
     vm.getSelectedBoardIds = function() {
       var selectedBoards = [];
 
-      vm.boards.forEach(function(board) {
-        if (board.TTisSelected) {
-          selectedBoards.push(board.id);
-        }
-      });
+      if (vm.boards) {
+        vm.boards.forEach(function(board) {
+          if (board.TTisSelected) {
+            selectedBoards.push(board.id);
+          }
+        });
+      }
 
       return selectedBoards;
+    }
+
+    vm.noSelectedBoards = function() {
+      var boards = vm.getSelectedBoardIds();
+      if (boards.length < 1) { return true; }
+      return false;
     }
 
     vm.goToLists = function(settings) {
       var boardsIdsArr = [];
 
       if (! settings) { boardsIdsArr = vm.allBoardsIds; }
-      if (settings.boardId) { boardsIdsArr.push(settings.boardId); }
-      if (settings.onlySelected) { boardsIdsArr = vm.getSelectedBoardIds(); }
+      if (settings && settings.boardId) { boardsIdsArr.push(settings.boardId); }
+      if (settings && settings.onlySelected) { boardsIdsArr = vm.getSelectedBoardIds(); }
 
       $log.debug('boardsIdsArr:\njust before state.go', boardsIdsArr);
 
