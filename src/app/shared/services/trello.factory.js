@@ -13,6 +13,9 @@
         f.selected = {
           boards: [],
           lists: []
+        },
+        f.cached = {
+          boards: []
         }
 
     // var Trello = Trello || {};
@@ -49,6 +52,20 @@
 
       Trello.get('member/me/boards/', function(response){
         if (options.onlyActive) { response = f.onlyActiveBoards(response); }
+        deferred.resolve(response);
+      }, function(err){
+        deferred.reject(err);
+      });
+
+      return deferred.promise;
+    }
+
+    f.getBoardLists = function(boardId) {
+      f.authorize();
+
+      var deferred = $q.defer();
+
+      Trello.get('boards/' + boardId + '/lists', function(response){
         deferred.resolve(response);
       }, function(err){
         deferred.reject(err);

@@ -21,6 +21,7 @@
     vm.trello.getBoards({ onlyActive: true }).then(function(result){
       vm.boards = result;
       vm.allBoardsIds = vm.getAllBoardsIds(vm.boards);
+      vm.trello.cached.boards = result;
     });
 
     vm.getAllBoardsIds = function(boards) {
@@ -49,11 +50,11 @@
     vm.goToLists = function(settings) {
       var boardsIdsArr = [];
 
+      if (! settings) { boardsIdsArr = vm.allBoardsIds; }
       if (settings.boardId) { boardsIdsArr.push(settings.boardId); }
-      else if (settings.onlySelected) { boardsIdsArr = vm.getSelectedBoardIds(); }
-      else { boardsIdsArr = vm.getAllBoardsIds(); }
+      if (settings.onlySelected) { boardsIdsArr = vm.getSelectedBoardIds(); }
 
-      $log.debug('boardsIdsArr: ', boardsIdsArr);
+      $log.debug('boardsIdsArr:\njust before state.go', boardsIdsArr);
 
       $state.go('lists', { boardsIds: boardsIdsArr });
     }

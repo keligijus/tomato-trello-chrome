@@ -1,1 +1,44 @@
-<h1>Hello people</h1>
+<pre>{{ vm.listsArr | json }}</pre>
+
+<div layout="row" layout-margin>
+  <div flex="25">
+    <!--  -->
+  </div>
+
+  <div flex="50" layout="column" layout-padding layout-margin layout-fill
+    md-whiteframe="3"
+    style="height: 80vh; margin: 10vh auto; background:white;">
+    <div flex>
+      <h1 class="md-headline">1: Choose the board</h1>
+      <h2 class="md-headline"><strong>2: The list</strong></h2>
+      <h2 class="md-headline">3: The card</h2>
+    </div>
+    <div flex>
+      <!-- TODO: on Enter should go to remaining boards -->
+      <md-input-container>
+        <label>Search Lists</label>
+        <input type="text" ng-model="vm.listsSearch">
+      </md-input-container>
+      <div class="list" ng-repeat="listsArr in vm.listsArr | fuzzy: vm.listsSearch" layout="row">
+        <span>{{ listsArr.boardName }}</span>
+<!--         <div ng-reapeat="list in listsArr.lists">
+          <md-checkbox ng-model="list.TTisSelected" aria-label="{{ list.name }}">
+            {{ list.name }}
+            {{ list }}
+          </md-checkbox>
+          <span flex></span>
+          <md-button ng-click="">Go directly to list (replace with icon)</md-button>
+        </div> -->
+      </div>
+    </div>
+    <div layout="row">
+      <div flex></div>
+      <md-button ng-click="">Go to all lists</md-button>
+      <md-button ng-click="">Go to selected lists</md-button>
+    </div>
+  </div>
+
+  <div flex="25">
+    <!--  -->
+  </div>
+</div>

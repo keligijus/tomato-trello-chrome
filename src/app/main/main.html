@@ -7,7 +7,7 @@
     md-whiteframe="3"
     style="height: 80vh; margin: 10vh auto; background:white;">
     <div flex>
-      <h1 class="md-headline">1: Choose the board</h1>
+      <h1 class="md-headline"><strong>1: Choose the board</strong></h1>
       <h2 class="md-headline">2: The list</h2>
       <h2 class="md-headline">3: The card</h2>
     </div>
@@ -27,6 +27,7 @@
     </div>
     <div layout="row">
       <div flex></div>
+      <md-button ng-click="vm.goToLists()">Go to all boards</md-button>
       <md-button ng-click="vm.goToLists({onlySelected: true})">Go to selected boards</md-button>
     </div>
   </div>
