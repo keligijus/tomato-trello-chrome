@@ -8,7 +8,7 @@
   /** @ngInject */
   function controller($q, $log, $state, trelloFactory, resolveGetLists, resolveGetBoards) {
     var vm = this;
-        vm.lists = [];
+        vm.boards = [];
         vm.trello = trelloFactory;
 
     vm.init = function() {
@@ -36,7 +36,7 @@
           listObj.lists = result;
           listObj.boardName = vm.getBoardNameByItsId(listObj.boardId);
 
-          return vm.lists.push(listObj);
+          return vm.boards.push(listObj);
         });
       });
     }
@@ -53,38 +53,55 @@
       return boardName;
     }
 
+    // vm.getAllListsIds = function(lists) {
+    //   var allListsIds = [];
 
+    //   lists.forEach(function(list) {
+    //     allListsIds.push(list.id);
+    //   });
 
+    //   $log.log('allListsIds: ', allListsIds);
 
+    //   return allListsIds;
+    // }
 
-    vm.getAllListsIds = function(lists) {
-      var allListsIds = [];
+    // vm.getSelectedListIds = function() {
+    //   var selectedLists = [];
 
-      lists.forEach( function(list) {
-        allListsIds.push(list.id);
-      });
+    //   if (vm.boards) {
+    //     vm.boards.forEach(function(board) {
+    //         board.lists.forEach(function(listItem){
+    //           if (listItem.TTisSelected) {
+    //             selectedLists.push(listItem.id);
+    //           }
+    //       });
+    //     });
+    //   }
 
-      // $log.log('allListsIds: ', allListsIds);
+    //   return selectedLists;
+    // }
 
-      return allListsIds;
-    }
+    vm.getListIds = function(settings) {
+      var lists = [];
 
-    vm.getSelectedListIds = function() {
-      var selectedLists = [];
-
-      if (vm.lists) {
-        vm.lists.forEach(function(list) {
-          if (list.TTisSelected) {
-            selectedLists.push(list.id);
-          }
+        vm.boards.forEach(function(board) {
+            board.lists.forEach(function(listItem){
+              if ( ! settings.onlySelected) {
+                //getting all items
+                return lists.push(listItem.id);
+              }
+              if (listItem.TTisSelected) {
+                //getting only selected items
+                lists.push(listItem.id);
+              }
+          });
         });
-      }
 
-      return selectedLists;
+      return lists;
     }
 
     vm.noSelectedLists = function() {
-      var lists = vm.getSelectedListIds();
+      var lists = vm.getListIds({onlySelected: true});
       if (lists.length < 1) { return true; }
       return false;
     }
@@ -92,9 +109,9 @@
     vm.goToCards = function(settings) {
       var listsIdsArr = [];
 
-      if (! settings) { listsIdsArr = vm.allListsIds; }
+      if (! settings) { listsIdsArr = vm.getListIds(vm.boards); }
       if (settings && settings.listId) { listsIdsArr.push(settings.listId); }
-      if (settings && settings.onlySelected) { listsIdsArr = vm.getSelectedListIds(); }
+      if (settings && settings.onlySelected) { listsIdsArr = vm.getListIds({onlySelected: true}); }
 
       $log.debug('listsIdsArr:\njust before state.go', listsIdsArr);
 

@@ -21,10 +21,10 @@
         <label>Search Lists</label>
         <input type="text" ng-model="vm.listsSearch">
       </md-input-container>
-      <div class="list" ng-repeat="lists in vm.lists" layout="column">
-        <div ng-if="filtered.length > 0">{{ lists.boardName }}</div>
+      <div class="list" ng-repeat="board in vm.boards" layout="column">
+        <div ng-if="filtered.length > 0">{{ board.boardName }}</div>
         <div layout="row"
-          ng-repeat="list in filtered = (lists.lists | fuzzy: vm.listsSearch)">
+          ng-repeat="list in filtered = (board.lists | fuzzy: vm.listsSearch)">
           <md-checkbox ng-model="list.TTisSelected" aria-label="{{ list.name }}">
             {{ list.name }}
           </md-checkbox>
@@ -40,7 +40,9 @@
     <div layout="row">
       <div flex></div>
       <md-button ng-click="vm.goToCards()">Go to all cards</md-button>
-      <md-button ng-click="vm.goToCards({onlySelected: true})">Go to selected cards</md-button>
+      <md-button
+        ng-click="vm.goToCards({onlySelected: true})"
+        ng-disabled="vm.noSelectedLists()">Go to selected cards</md-button>
     </div>
   </div>
 
