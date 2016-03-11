@@ -32,6 +32,7 @@
       });
 
       $log.log('allBoardsIds: ', allBoardsIds);
+
       return allBoardsIds;
     }
 
@@ -64,7 +65,7 @@
 
       $log.debug('boardsIdsArr:\njust before state.go', boardsIdsArr);
 
-      $state.go('lists', { boardsIds: boardsIdsArr });
+      return $state.go('lists', { boardsIds: boardsIdsArr });
     }
 
   }
