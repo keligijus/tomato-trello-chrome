@@ -8,14 +8,12 @@
   /** @ngInject */
   function controller($q, $log, $state, trelloFactory, resolveGetLists, resolveGetBoards) {
     var vm = this;
-        vm.listsArr = [];
+        vm.lists = [];
         vm.trello = trelloFactory;
 
     vm.init = function() {
-
       vm.checkAndGetCachedBoards();
       vm.getAndPrepSelectedLists();
-
     }
 
     vm.getAllListsPromise = function() {
@@ -23,9 +21,9 @@
     }
 
     vm.checkAndGetCachedBoards = function() {
-      if (trelloFactory.cached.boards.length < 1) {
+      if (vm.trello.cached.boards.length < 1) {
         $log.debug(' getting cached boards from resolve @list.controller');
-        trelloFactory.cached.boards = resolveGetBoards;
+        vm.trello.cached.boards = resolveGetBoards;
       }
     }
 
@@ -38,7 +36,7 @@
           listObj.lists = result;
           listObj.boardName = vm.getBoardNameByItsId(listObj.boardId);
 
-          return vm.listsArr.push(listObj);
+          return vm.lists.push(listObj);
         });
       });
     }
@@ -46,9 +44,8 @@
     vm.getBoardNameByItsId = function(boardId) {
       var boardName;
 
-      trelloFactory.cached.boards.forEach(function(board){
+      vm.trello.cached.boards.forEach(function(board){
         if (board.id === boardId) {
-          $log.info('before return', board.name);
           return boardName = board.name;
         }
       });
@@ -56,6 +53,53 @@
       return boardName;
     }
 
+
+
+
+
+    vm.getAllListsIds = function(lists) {
+      var allListsIds = [];
+
+      lists.forEach( function(list) {
+        allListsIds.push(list.id);
+      });
+
+      // $log.log('allListsIds: ', allListsIds);
+
+      return allListsIds;
+    }
+
+    vm.getSelectedListIds = function() {
+      var selectedLists = [];
+
+      if (vm.lists) {
+        vm.lists.forEach(function(list) {
+          if (list.TTisSelected) {
+            selectedLists.push(list.id);
+          }
+        });
+      }
+
+      return selectedLists;
+    }
+
+    vm.noSelectedLists = function() {
+      var lists = vm.getSelectedListIds();
+      if (lists.length < 1) { return true; }
+      return false;
+    }
+
+    vm.goToCards = function(settings) {
+      var listsIdsArr = [];
+
+      if (! settings) { listsIdsArr = vm.allListsIds; }
+      if (settings && settings.listId) { listsIdsArr.push(settings.listId); }
+      if (settings && settings.onlySelected) { listsIdsArr = vm.getSelectedListIds(); }
+
+      $log.debug('listsIdsArr:\njust before state.go', listsIdsArr);
+
+      return $state.go('cards', { listsIds: listsIdsArr });
+    }
 
     vm.init();
 

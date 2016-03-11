@@ -84,6 +84,22 @@
       return activeBoards;
     }
 
+    f.getListCards = function(listId) {
+      f.authorize();
+
+      var deferred = $q.defer();
+      var getParam = 'lists/'+ listId +'/cards';
+
+      Trello.get(getParam, function(response){
+        response = f.onlyCardsWithChecklists(response);
+        deferred.resolve(response);
+      }, function(err){
+        deferred.reject(err);
+      });
+
+      return deferred.promise;
+    }
+
     f.getBoardCards = function(boardId) {
       f.authorize();
 

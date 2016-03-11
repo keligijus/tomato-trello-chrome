@@ -21,17 +21,17 @@
         <label>Search Lists</label>
         <input type="text" ng-model="vm.listsSearch">
       </md-input-container>
-      <div class="list" ng-repeat="listArr in vm.listsArr" layout="column">
-        <div ng-if="filtered.length > 0">{{ listArr.boardName }}</div>
+      <div class="list" ng-repeat="lists in vm.lists" layout="column">
+        <div ng-if="filtered.length > 0">{{ lists.boardName }}</div>
         <div layout="row"
-          ng-repeat="list in filtered = (listArr.lists | fuzzy: vm.listsSearch)">
+          ng-repeat="list in filtered = (lists.lists | fuzzy: vm.listsSearch)">
           <md-checkbox ng-model="list.TTisSelected" aria-label="{{ list.name }}">
             {{ list.name }}
           </md-checkbox>
           <span flex></span>
-          <md-button ng-click="vm.goToLists({boardId: board.id})">Go directly to list cards</md-button>
+          <md-button ng-click="vm.goToCards({listId: list.id})">Go directly to list cards</md-button>
         </div>
-<!--         <div ng-reapeat="list in listsArr.lists">
+<!--         <div ng-reapeat="list in lists.lists">
           <span flex></span>
           <md-button ng-click="">Go directly to list (replace with icon)</md-button>
         </div> -->
@@ -39,8 +39,8 @@
     </div>
     <div layout="row">
       <div flex></div>
-      <md-button ng-click="">Go to all lists</md-button>
-      <md-button ng-click="">Go to selected lists</md-button>
+      <md-button ng-click="vm.goToCards()">Go to all cards</md-button>
+      <md-button ng-click="vm.goToCards({onlySelected: true})">Go to selected cards</md-button>
     </div>
   </div>
 
@@ -49,4 +49,4 @@
   </div>
 </div>
 
-<!-- <pre>{{ vm.listsArr | json }}</pre> -->
+<!-- <pre>{{ vm.lists | json }}</pre> -->

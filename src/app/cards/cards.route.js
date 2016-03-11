@@ -23,18 +23,29 @@
             var promisesArr = [],
                 promise;
 
-            $stateParams.listsIds.forEach(function(boardId) {
-              promise = trelloFactory.getBoardLists(boardId);
+            $stateParams.listsIds.forEach(function(listId) {
+              promise = trelloFactory.getListCards(listId);
               promisesArr.push(promise);
             });
 
             return promisesArr;
-          }//,
-          // resolveGetLists: function(trelloFactory) {
-          //   if (trelloFactory.cached.boards.length < 1) {
-          //     return trelloFactory.getBoards({ onlyActive: true });
-          //   }
-          // }
+          },
+          // resoleGetLists: function() {
+          //   var promisesArr = [],
+          //       promise;
+
+          //   $stateParams.Ids.forEach(function(boardId) {
+          //     promise = trelloFactory.getBoardLists(boardId);
+          //     promisesArr.push(promise);
+          //   });
+
+          //   return promisesArr;
+          // },
+          resolveGetBoards: function(trelloFactory) {
+            if (trelloFactory.cached.boards.length < 1) {
+              return trelloFactory.getBoards({ onlyActive: true });
+            }
+          }
         }
       });
 

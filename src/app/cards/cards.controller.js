@@ -12,34 +12,45 @@
         vm.trello = trelloFactory;
 
     vm.init = function() {
-
-      // if (trelloFactory.cached.boards.length < 1) {
-      //   $log.debug(' getting cached boards from resolve @cards.controller');
-      //   trelloFactory.cached.boards = resolveGetBoards;
-      // }
-
-      // vm.getAllCardsPromise().then(function(results) {
-      //   results.forEach(function(result) {
-      //     var listObj = {},
-      //         tempBoardName;
-
-      //     listObj.boardId = result[0].idBoard;
-      //     listObj.cards = result;
-
-      //     trelloFactory.cached.boards.forEach(function(board){
-      //       if (board.id === result[0].idBoard) {
-      //         listObj.boardName = board.name;
-      //       }
-      //     });
-
-      //     return vm.cardsArr.push(listObj);
-      //   });
-      // });
-
+      vm.checkAndGetCachedBoards();
+      vm.getAndPrepSelectedCards();
     }
 
     vm.getAllCardsPromise = function() {
-      // return $q.all(resolveGetCards);
+      return $q.all(resolveGetCards);
+    }
+
+    vm.checkAndGetCachedBoards = function() {
+      if (vm.trello.cached.boards.length < 1) {
+        $log.debug(' getting cached boards from resolve @list.controller');
+        vm.trello.cached.boards = resolveGetBoards;
+      }
+    }
+
+    vm.getAndPrepSelectedCards = function() {
+      vm.getAllCardsPromise().then(function(results) {
+        results.forEach(function(result) {
+          var listObj = {};
+
+          listObj.listId = result[0].idList;
+          listObj.cards = result;
+          listObj.listName = vm.getListNameByItsId(listObj.listId);
+
+          return vm.listsArr.push(listObj);
+        });
+      });
+    }
+
+    vm.getListNameByItsId = function(listId) {
+      var listName;
+
+      vm.trello.cached.boards.forEach(function(list){
+        if (list.id === listId) {
+          return listName = list.name;
+        }
+      });
+
+      return listName;
     }
 
 
