@@ -22,7 +22,7 @@
 
     vm.checkAndGetCachedBoards = function() {
       if (vm.trello.cached.boards.length < 1) {
-        $log.debug(' getting cached boards from resolve @list.controller');
+        $log.debug(' getting cached boards from resolve @cards.controller');
         vm.trello.cached.boards = resolveGetBoards;
       }
     }
@@ -32,11 +32,14 @@
         results.forEach(function(result) {
           var listObj = {};
 
-          listObj.listId = result[0].idList;
-          listObj.cards = result;
-          listObj.listName = vm.getListNameByItsId(listObj.listId);
+          $log.info('getAndPrepSelectedCards:')
+          $log.info(result);
 
-          return vm.listsArr.push(listObj);
+          // listObj.listId = result[0].idList;
+          // listObj.cards = result;
+          // listObj.listName = vm.getListNameByItsId(listObj.listId);
+
+          // return vm.listsArr.push(listObj);
         });
       });
     }

@@ -17,7 +17,8 @@
         /* Pages */
         'board',
         'clock',
-        'lists'
+        'lists',
+        'cards'
       ]
     );
 

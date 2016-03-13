@@ -53,34 +53,6 @@
       return boardName;
     }
 
-    // vm.getAllListsIds = function(lists) {
-    //   var allListsIds = [];
-
-    //   lists.forEach(function(list) {
-    //     allListsIds.push(list.id);
-    //   });
-
-    //   $log.log('allListsIds: ', allListsIds);
-
-    //   return allListsIds;
-    // }
-
-    // vm.getSelectedListIds = function() {
-    //   var selectedLists = [];
-
-    //   if (vm.boards) {
-    //     vm.boards.forEach(function(board) {
-    //         board.lists.forEach(function(listItem){
-    //           if (listItem.TTisSelected) {
-    //             selectedLists.push(listItem.id);
-    //           }
-    //       });
-    //     });
-    //   }
-
-    //   return selectedLists;
-    // }
-
     vm.getListIds = function(settings) {
       var lists = [];
 
